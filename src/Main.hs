@@ -67,7 +67,7 @@ processRedGlass = do
 
 -- RunGame
 numTries :: Int
-numTries = 9
+numTries = 3
 
 type Tries = Int
 type RunGame a = StateT Tries IO a
@@ -90,7 +90,6 @@ runGame = do
                                      ++ (color Red   . style Bold $ "RedGlass "  )
                         lift $ hSetEcho stdin False
                         choice <- lift $ getLine
-                        lift $ hSetEcho stdin False
                         case choice of
                            "BlueGlass"  -> lift $ processBlueGlass
                            "GreenGlass" -> lift $ processGreenGlass
@@ -105,6 +104,7 @@ runGame = do
 playOrExit :: IO ()
 playOrExit = do
       putStrLn (style Bold  $ "Enter P to Play or X to Exit.")
+      hSetEcho stdin False
       choice <- getLine
       case choice of
          "P" -> clearScreen >> restoreCursor >> runStateT runGame numTries >> playOrExit
@@ -116,6 +116,7 @@ playOrExit = do
 continueOrExit :: IO ()
 continueOrExit = do
       putStrLn (style Bold  $ "Enter C to Continue or X to Exit.")
+      hSetEcho stdin False
       choice <- getLine
       case choice of
          "C" -> clearScreen >> restoreCursor >> runStateT runGame numTries >> continueOrExit
