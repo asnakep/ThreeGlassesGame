@@ -67,7 +67,7 @@ processRedGlass = do
 
 -- RunGame
 numTries :: Int
-numTries = 3
+numTries = 9
 
 type Tries = Int
 type RunGame a = StateT Tries IO a
