@@ -1,0 +1,38 @@
+cabal-version:      >=1.10
+name:               ThreeGlassesGame
+version:            0.1.0.0
+synopsis:
+
+-- A longer description of the package.
+-- description:
+homepage:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+license:            BSD3
+license-file:       LICENSE
+author:             asnakep
+maintainer:         econcotelli@gmail.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
+build-type:         Simple
+extra-source-files: CHANGELOG.md
+
+executable ThreeGlassesGame
+    main-is:          Main.hs
+
+    -- Modules included in this executable, other than Main.
+    other-modules: ThreeGlassesGame
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:    base,
+                      mtl,
+                      random,
+                      pretty-terminal,
+                      ansi-terminal
+    hs-source-dirs:   src
+    default-language: Haskell2010
+
