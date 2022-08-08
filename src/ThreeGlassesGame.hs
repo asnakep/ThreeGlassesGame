@@ -26,14 +26,14 @@ placeBean = \gs st -> [gs st]
 blueWin :: [Glasses]
 blueWin = placeBean BlueGlass Bean ++ tail initialGlassState
 
-blackWin :: [Glasses]
-blackWin = placeBean BlueGlass Empty ++ placeBean GreenGlass Bean ++ drop 2 initialGlassState
+greenWin :: [Glasses]
+greenWin = placeBean BlueGlass Empty ++ placeBean GreenGlass Bean ++ drop 2 initialGlassState
 
 redWin :: [Glasses]
 redWin = init initialGlassState ++ placeBean RedGlass Bean
 
 winnersFuncList :: [[Glasses]]
-winnersFuncList = [blueWin, blackWin, redWin]
+winnersFuncList = [blueWin, greenWin, redWin]
 
 
 -- Random choose of winner from func: winnersFuncList
