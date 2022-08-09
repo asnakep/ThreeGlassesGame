@@ -105,8 +105,8 @@ runGame = do
                            "BlueGlass"  -> lift $ processBlueGlass
                            "GreenGlass" -> lift $ processGreenGlass
                            "RedGlass"   -> lift $ processRedGlass
-                           _            -> lift $ clearScreen >> restoreCursor
-                        lift $ threadDelay 3000000 >> clearScreen >> restoreCursor
+                           _            -> lift $ clearScreen >> restoreCursor >> hideCursor
+                        lift $ threadDelay 3000000 >> clearScreen >> restoreCursor >> hideCursor
                         put (tries - 1)
                         runGame
 
@@ -118,9 +118,9 @@ playOrExit = do
       hSetEcho stdin False
       choice <- getLine
       case choice of
-         "P" -> clearScreen >> restoreCursor >> runStateT runGame numTries >> playOrExit
+         "P" -> clearScreen >> restoreCursor >> hideCursor >> runStateT runGame numTries >> playOrExit
          "X" -> exitSuccess
-         _   -> clearScreen >> restoreCursor >> playOrExit
+         _   -> clearScreen >> restoreCursor >> hideCursor >> playOrExit
 
 
 -- continueOrExit
@@ -130,15 +130,15 @@ continueOrExit = do
       hSetEcho stdin False
       choice <- getLine
       case choice of
-         "C" -> clearScreen >> restoreCursor >> runStateT runGame numTries >> continueOrExit
+         "C" -> clearScreen >> restoreCursor >> hideCursor >> runStateT runGame numTries >> continueOrExit
          "X" -> exitSuccess
-         _   -> clearScreen >> restoreCursor >> continueOrExit
+         _   -> clearScreen >> restoreCursor >> hideCursor >> continueOrExit
 
 
 -- gameIntro
 gameIntro :: IO ()
 gameIntro = do
-   clearScreen >> restoreCursor
+   clearScreen >> restoreCursor >> hideCursor
    putStrLn (style Bold  $              "\nThree Glasses Game:")
    putStrLn (color Green . style Bold $ "\nThe Gambler will put a Bean inside one of three upside down glasses \nand then will shuffle them very skillfully.")
    putStrLn (color Green . style Bold $ "\n Guess which glass contains the bean.\n")
