@@ -10,19 +10,22 @@ import System.Console.ANSI hiding (Red, Blue, Green, White)
 import System.Exit
 import System.IO
 
-
- -- processBlueGlass  
+-- processBlueGlass 
 processBlueGlass :: IO ()
 processBlueGlass = do
    list      <- shuffleWinningGlasses
    preresult <- return (BlueGlass Bean `elem` list)
    result    <- case preresult of
-                       True  -> putStrLn (style Bold  $ "\nYou chose:\n")
-                             >> putStrLn (color Blue  . style Bold $ "BlueGlass\n")
-                             >> putStrLn (color Green . style Bold $ "You guessed it right! The Bean is inside the BlueGlass :)")
-                       False -> putStrLn (style Bold  $ "\nYou chose:\n ")
-                             >> putStrLn (color Blue  . style Bold $ "BlueGlass\n")
-                             >> putStrLn (color Red   . style Bold $ "The Bean is not inside BlueGlass. :(")
+                       True  -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                                ++ (color Blue  . style Bold $ "\nBlueGlass\n")
+                                ++ (color Green . style Bold $ "\nYou guessed it right! " )
+                                ++ (color White . style Bold $ "The Bean is inside the ")
+                                ++ (color Blue  . style Bold $ "BlueGlass")
+                       False -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                                ++ (color Blue  . style Bold $ "\nBlueGlass\n")
+                                ++ (color White . style Bold $ "\nThe Bean is not inside the ")
+                                ++ (color Blue  . style Bold $ "BlueGlass. ")
+                                ++ (color Red   . style Bold $ ":(")
    return result
    putStrLn ""
    putStrLn $ (style Bold $ show list)
@@ -35,12 +38,16 @@ processGreenGlass = do
    list      <- shuffleWinningGlasses
    preresult <- return (GreenGlass Bean `elem` list)
    result    <- case preresult of
-                       True  -> putStrLn (style Bold  $ "\nYou chose:\n")
-                             >> putStrLn (color Green . style Bold $ "GreenGlass\n")
-                             >> putStrLn (color Green . style Bold $ "You guessed it right! The Bean is inside the GreenGlass :)")
-                       False -> putStrLn (style Bold  $ "\nYou chose:\n")
-                             >> putStrLn (color Green . style Bold $ "GreenGlass\n")
-                             >> putStrLn (color Red   . style Bold $ "The Bean is not inside GreenGlass. :(")
+                       True  -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                                ++ (color Green . style Bold $ "\nGreenGlass\n")
+                                ++ (color Green . style Bold $ "\nYou guessed it right! " )
+                                ++ (color White . style Bold $ "The Bean is inside the ")
+                                ++ (color Green . style Bold $ "GreenGlass")
+                       False -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                                ++ (color Green  . style Bold $ "\nGreenGlass\n")
+                                ++ (color White . style Bold $ "\nThe Bean is not inside the ")
+                                ++ (color Green  . style Bold $ "GreenGlass. ")
+                                ++ (color Red   . style Bold $ ":(")
    return result
    putStrLn ""
    putStrLn $ (style Bold $ show list)
@@ -53,12 +60,16 @@ processRedGlass = do
    list      <- shuffleWinningGlasses
    preresult <- return (RedGlass Bean `elem` list)
    result    <- case preresult of
-                       True  -> putStrLn (style Bold  $ "\nYou chose:\n")
-                             >> putStrLn (color Red   . style Bold $ "RedGlass\n")
-                             >> putStrLn (color Green . style Bold $ "You guessed it right! The Bean is inside the RedGlass :)")
-                       False -> putStrLn (style Bold  $ "\nYou chose:\n")
-                             >> putStrLn (color Red   . style Bold $ "RedGlass\n")
-                             >> putStrLn (color Red   . style Bold $ "The Bean is not inside RedGlass. :(")
+                       True  -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                                ++ (color Red . style Bold $ "\nRedGlass\n")
+                                ++ (color Green . style Bold $ "\nYou guessed it right! " )
+                                ++ (color White . style Bold $ "The Bean is inside the ")
+                                ++ (color Red . style Bold $ "RedGlass")
+                       False -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                                ++ (color Red  . style Bold $ "\nRedGlass\n")
+                                ++ (color White . style Bold $ "\nThe Bean is not inside the ")
+                                ++ (color Red  . style Bold $ "RedGlass. ")
+                                ++ (color Red   . style Bold $ ":(")
    return result
    putStrLn ""
    putStrLn $ (style Bold $ show list)
