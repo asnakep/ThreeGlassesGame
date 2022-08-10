@@ -10,18 +10,21 @@ import System.Console.ANSI hiding (Red, Blue, Green, White)
 import System.Exit
 import System.IO
 
+
 -- processBlueGlass 
 processBlueGlass :: IO ()
 processBlueGlass = do
    list      <- shuffleWinningGlasses
    preresult <- return (BlueGlass Bean `elem` list)
    result    <- case preresult of
-                       True  -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                       True  -> putStrLn 
+                                 $ (style Bold  $ "\nYou chose:\n")
                                 ++ (color Blue  . style Bold $ "\nBlueGlass\n")
                                 ++ (color Green . style Bold $ "\nYou guessed it right! " )
                                 ++ (color White . style Bold $ "The Bean is inside the ")
                                 ++ (color Blue  . style Bold $ "BlueGlass")
-                       False -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                       False -> putStrLn 
+                                 $ (style Bold  $ "\nYou chose:\n")
                                 ++ (color Blue  . style Bold $ "\nBlueGlass\n")
                                 ++ (color White . style Bold $ "\nThe Bean is not inside the ")
                                 ++ (color Blue  . style Bold $ "BlueGlass. ")
@@ -38,15 +41,17 @@ processGreenGlass = do
    list      <- shuffleWinningGlasses
    preresult <- return (GreenGlass Bean `elem` list)
    result    <- case preresult of
-                       True  -> putStrLn $ (style Bold  $ "\nYou chose:\n")
+                       True  -> putStrLn $ 
+                                   (style Bold  $ "\nYou chose:\n")
                                 ++ (color Green . style Bold $ "\nGreenGlass\n")
                                 ++ (color Green . style Bold $ "\nYou guessed it right! " )
                                 ++ (color White . style Bold $ "The Bean is inside the ")
                                 ++ (color Green . style Bold $ "GreenGlass")
-                       False -> putStrLn $ (style Bold  $ "\nYou chose:\n")
-                                ++ (color Green  . style Bold $ "\nGreenGlass\n")
+                       False -> putStrLn $ 
+                                   (style Bold  $ "\nYou chose:\n")
+                                ++ (color Green . style Bold $ "\nGreenGlass\n")
                                 ++ (color White . style Bold $ "\nThe Bean is not inside the ")
-                                ++ (color Green  . style Bold $ "GreenGlass. ")
+                                ++ (color Green . style Bold $ "GreenGlass. ")
                                 ++ (color Red   . style Bold $ ":(")
    return result
    putStrLn ""
@@ -60,21 +65,22 @@ processRedGlass = do
    list      <- shuffleWinningGlasses
    preresult <- return (RedGlass Bean `elem` list)
    result    <- case preresult of
-                       True  -> putStrLn $ (style Bold  $ "\nYou chose:\n")
-                                ++ (color Red . style Bold $ "\nRedGlass\n")
+                       True  -> putStrLn $ 
+                                   (style Bold  $ "\nYou chose:\n")
+                                ++ (color Red   . style Bold $ "\nRedGlass\n")
                                 ++ (color Green . style Bold $ "\nYou guessed it right! " )
                                 ++ (color White . style Bold $ "The Bean is inside the ")
-                                ++ (color Red . style Bold $ "RedGlass")
-                       False -> putStrLn $ (style Bold  $ "\nYou chose:\n")
-                                ++ (color Red  . style Bold $ "\nRedGlass\n")
+                                ++ (color Red   . style Bold $ "RedGlass")
+                       False -> putStrLn $ 
+                                   (style Bold  $ "\nYou chose:\n")
+                                ++ (color Red   . style Bold $ "\nRedGlass\n")
                                 ++ (color White . style Bold $ "\nThe Bean is not inside the ")
-                                ++ (color Red  . style Bold $ "RedGlass. ")
+                                ++ (color Red   . style Bold $ "RedGlass. ")
                                 ++ (color Red   . style Bold $ ":(")
    return result
    putStrLn ""
    putStrLn $ (style Bold $ show list)
    putStrLn ""
-
 
 -- RunGame
 numTries :: Int
@@ -105,8 +111,8 @@ runGame = do
                            "BlueGlass"  -> lift $ processBlueGlass
                            "GreenGlass" -> lift $ processGreenGlass
                            "RedGlass"   -> lift $ processRedGlass
-                           _            -> lift $ clearScreen >> restoreCursor >> hideCursor
-                        lift $ threadDelay 3000000 >> clearScreen >> restoreCursor >> hideCursor
+                           _            -> lift $ clearScreen >> restoreCursor
+                        lift $ threadDelay (100 ^ 3 * 3) >> clearScreen >> restoreCursor >> hideCursor
                         put (tries - 1)
                         runGame
 
@@ -119,7 +125,7 @@ playOrExit = do
       choice <- getLine
       case choice of
          "P" -> clearScreen >> restoreCursor >> hideCursor >> runStateT runGame numTries >> playOrExit
-         "X" -> exitSuccess
+         "X" -> clearScreen >> restoreCursor >> showCursor >> exitSuccess
          _   -> clearScreen >> restoreCursor >> hideCursor >> playOrExit
 
 
@@ -131,7 +137,7 @@ continueOrExit = do
       choice <- getLine
       case choice of
          "C" -> clearScreen >> restoreCursor >> hideCursor >> runStateT runGame numTries >> continueOrExit
-         "X" -> exitSuccess
+         "X" -> clearScreen >> restoreCursor >> showCursor >> exitSuccess
          _   -> clearScreen >> restoreCursor >> hideCursor >> continueOrExit
 
 
