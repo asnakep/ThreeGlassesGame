@@ -1,6 +1,6 @@
 module ThreeGlassesGame where
 
-import System.Random
+import System.Random (randomRIO)
 import Control.Monad.IO.Class
 
 data Glasses = 
@@ -39,7 +39,7 @@ winnersFuncList = [blueWin, greenWin, redWin]
 -- Random choose of winner from func: winnersFuncList
 chooseRandomWinner :: MonadIO m => [b] -> m b
 chooseRandomWinner winList = do
-                     randomWinnerIs <- getStdRandom $ randomR (0, length winList - 1)
+                     randomWinnerIs <- randomRIO (0, length winList - 1)
                      return $ winList !! randomWinnerIs
 
 
