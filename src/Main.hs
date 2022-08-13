@@ -109,7 +109,7 @@ runGame = do
                                      ++ (color Red   . style Bold $ "RedGlass "  )
                         lift $ hSetEcho stdin False
                         threadId <- lift $ myThreadId
-                        lift $ installHandler keyboardSignal (Catch $ showCursor >> killThread threadId) Nothing
+                        lift $ installHandler keyboardSignal (Catch $ clearScreen >> restoreCursor >> showCursor >> killThread threadId) Nothing
                         choice <- lift $ getLine
                         case choice of
                            "BlueGlass"  -> lift $ processBlueGlass
