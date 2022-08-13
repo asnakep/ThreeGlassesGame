@@ -9,6 +9,7 @@ import System.Console.Pretty
 import System.Console.ANSI hiding (Red, Blue, Green, White)
 import System.Exit
 import System.IO
+import System.Posix.Signals
 
 
 -- processBlueGlass 
@@ -81,6 +82,7 @@ processRedGlass = do
    putStrLn ""
    putStrLn $ (style Bold $ show list)
    putStrLn ""
+   
 
 -- RunGame
 numTries :: Int
@@ -106,13 +108,15 @@ runGame = do
                                      ++ (color Green . style Bold $ "GreenGlass ") 
                                      ++ (color Red   . style Bold $ "RedGlass "  )
                         lift $ hSetEcho stdin False
+                        threadId <- lift $ myThreadId
+                        lift $ installHandler keyboardSignal (Catch $ showCursor >> killThread threadId) Nothing
                         choice <- lift $ getLine
                         case choice of
                            "BlueGlass"  -> lift $ processBlueGlass
                            "GreenGlass" -> lift $ processGreenGlass
                            "RedGlass"   -> lift $ processRedGlass
-                           _            -> lift $ clearScreen >> restoreCursor
-                        lift $ threadDelay (100 ^ 3 * 3) >> clearScreen >> restoreCursor >> hideCursor
+                           _            -> lift $ putStrLn (style Bold $ "\nInvalid Input, you lost a try.") >> threadDelay (100 ^ 2 * 200)
+                        lift $ threadDelay (100 ^ 2 * 200) >> clearScreen >> restoreCursor >> hideCursor
                         put (tries - 1)
                         runGame
 
@@ -157,4 +161,4 @@ gameIntro = do
 --main function
 main :: IO ()
 main = do
-    gameIntro >> playOrExit
+     gameIntro >> playOrExit
